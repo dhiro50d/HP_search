@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Members</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#group').change(function() {
+                var selectedGroup = $(this).val();
+                $.ajax({
+                    url: '/',
+                    method: 'POST',
+                    data: { group: selectedGroup },
+                    success: function(response) {
+                        $('#member').empty();
+                        $.each(response, function(index, value) {
+                            $('#member').append('<option value="' + value + '">' + value + '</option>');
+                        });
+                    }
+                });
+            });
+
+            // フォームが送信される前に、選択されたMemberの値をURLに含める
+            $('form').submit(function() {
+                var selectedMember = $('#member').val();
+                var actionUrl = $(this).attr('action') + '?member=' + encodeURIComponent(selectedMember);
+                $(this).attr('action', actionUrl);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Search Members</h1>
+    <form method="POST" action="/result">
+        <label for="group">Group:</label>
+        <select name="group" id="group">
+            {% for group in groups.keys() %}
+                <option value="{{ group }}">{{ group }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="member">Member:</label>
+        <select name="member" id="member">
+        </select>
+        <br><br>
+        <button type="submit">search</button>
+    </form>
+</body>
+</html>

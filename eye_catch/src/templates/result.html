@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded YouTube Videos</title>
+</head>
+<body>
+    <h1>Result about {{member}}</h1>
+    <form action='/' methold='get'>
+        <button type="submit">back to home</button>
+    </form>
+    {% for video in videos %}
+        <h2>{{ video.title }}</h2>
+        <iframe width="560" height="315" src="{{ video.embed_link }}" frameborder="0" allowfullscreen></iframe>
+        <br><br>
+    {% endfor %}
+    <form action='/' methold='get'>
+        <button type="submit">back to home</button>
+    </form>
+</body>
+</html>
