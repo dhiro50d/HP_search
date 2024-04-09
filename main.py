@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from belongs import GROUP_MEMBER_DICTS
-from links import MOVIE_LINK_DICT
+from eye_catch.links import MOVIE_LINK_DICT
 
 app = Flask(__name__)
 

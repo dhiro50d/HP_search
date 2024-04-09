@@ -1,12 +1,12 @@
-from links.makino_maria import MAKINO_MARIA_LINKS
-from links.sakurai_rio import SAKURAI_RIO_LINKS
+from eye_catch.links.makino_maria import MAKINO_MARIA_LINKS
+from eye_catch.links.sakurai_rio import SAKURAI_RIO_LINKS
 
-from links.ise_layla import ISE_LAYLA_LINKS
-from links.kawana_rin import KAWANA_RIN_LINKS
+from eye_catch.links.ise_layla import ISE_LAYLA_LINKS
+from eye_catch.links.kawana_rin import KAWANA_RIN_LINKS
 
-from links.nishida_shiori import NISHIDA_SHIORI_LINKS
-from links.maeda_kokoro import MAEDA_KOKORO_LINKS
-from links.satoyoshi_utano import SATOYOSHI_UTANO_LINKS
+from eye_catch.links.nishida_shiori import NISHIDA_SHIORI_LINKS
+from eye_catch.links.maeda_kokoro import MAEDA_KOKORO_LINKS
+from eye_catch.links.satoyoshi_utano import SATOYOSHI_UTANO_LINKS
 
 MOVIE_LINK_DICT = {
     "石田亜佑美": [{'title': '', 'embed_link': ''}],
