@@ -1,9 +1,8 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+# Azure Web AppsにPythonアプリをビルドしてデプロイするワークフロー
 
 name: Build and deploy Python app to Azure Web App - HPsearch
 
+# トリガー設定
 on:
   push:
     branches:
@@ -15,26 +14,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # リポジトリをチェックアウト
       - uses: actions/checkout@v4
 
+      # Pythonバージョンのセットアップ
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
           python-version: '3.9'
 
+      # 仮想環境の作成とアクティベーション
       - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
       
+      # 依存関係のインストール
       - name: Install dependencies
         run: pip install -r requirements.txt
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      # オプション: テストの実行
+      # PyTestやDjangoのテストスイートなどをここに追加
 
+      # デプロイ用にアーティファクトを圧縮
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
+      # デプロイ用アーティファクトのアップロード
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
@@ -50,29 +56,29 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # JWTをリクエストするために必要
 
     steps:
+      # ビルドジョブからアーティファクトをダウンロード
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: python-app
 
+      # デプロイ用アーティファクトの解凍
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
+      # Azureにログイン
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AFA753FB946B4FC7809509B91E90B12A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_37FE18E683FF4A6F878E1725F8F169A4 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_59C06A3C24084348A17A319DB183D136 }}
+          creds: '${{ secrets.AZURE_CREDENTIALS }}' # Azureサービスプリンシパルの認証情報を使用する
 
+      # Azure Web Appにデプロイ
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'HPsearch'
           slot-name: 'Production'
-          
